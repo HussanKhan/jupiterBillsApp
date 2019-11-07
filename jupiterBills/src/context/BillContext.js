@@ -32,10 +32,67 @@ const addBill = (dispatch) => {
 
 };
 
+let initState = { bills: [
+    {
+        id: 1,
+        name: 'Comcast',
+        amount: 45.77,
+        dueDate: 8,
+        occurance: "monthly",
+        amountHistory: [{month: 11, amount: 78.99}],
+        active: 1
+    },
+    {
+        id: 2,
+        name: 'Vonage',
+        amount: 75.77,
+        dueDate: 12,
+        occurance: "monthly",
+        amountHistory: [{month: 11, amount: 78.99}],
+        active: 1
+    },
+    {
+        id: 3,
+        name: 'Car Insurance',
+        amount: 115.77,
+        dueDate: 19,
+        occurance: "monthly",
+        amountHistory: [{month: 11, amount: 78.99}],
+        active: 1
+    },
+    {
+        id: 4,
+        name: 'Electricity',
+        amount: 134.77,
+        dueDate: 22,
+        occurance: "monthly",
+        amountHistory: [{month: 11, amount: 78.99}],
+        active: 1
+    },
+    {
+        id: 5,
+        name: 'Sling TV',
+        amount: 45.99,
+        dueDate: 25,
+        occurance: "monthly",
+        amountHistory: [{month: 11, amount: 78.99}],
+        active: 1
+    },
+    {
+        id: 6,
+        name: 'Chase Credit Card',
+        amount: 75.00,
+        dueDate: 28,
+        occurance: "monthly",
+        amountHistory: [{month: 11, amount: 78.99}],
+        active: 1
+    }
+]} // starting state
+
 // Export Provider
 // (reducer, actions, defaultValue)
 export const { Provider, Context } = createdataContext(
     billReducer,
     {addBill}, // functions to use reducer
-    {bills: []} // starting state
+    initState
 );

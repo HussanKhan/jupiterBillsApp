@@ -12,7 +12,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 // CONTEXT - so all parts of app can see this
-// import { Provider as AuthProvider } from './src/context/AuthContext';
+import {Provider} from './src/context/BillContext';
 
 const headerNavSettings = {
     headerMode: 'none',
@@ -57,6 +57,8 @@ const App =  createAppContainer(stackNavigator);
 // Provider wraps all components
 export default () => {
     return (
-        <App/>
+        <Provider>
+            <App/>
+        </Provider>
     );
 };
