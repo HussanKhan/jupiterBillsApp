@@ -26,18 +26,11 @@ const HomeScreen = (props) => {
                     showsVerticalScrollIndicator={false}
                 >
                     {valueData.state.bills.map(bill => (
-                        <Bill data={bill}/>
+                        
+                        <Bill data={bill} key={bill.id}/>
+                    
                     ))}
-                    {/* <Bill/>
-                    <Bill/>
-                    <Bill/>
-                    <Bill/>
-                    <Bill/>
-                    <Bill/>
-                    <Bill/>
-                    <Bill/>
-                    <Bill/>
-                    <Bill/> */}
+
                 </ScrollView>
 
                 {/* <Button

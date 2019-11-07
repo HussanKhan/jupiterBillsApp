@@ -6,7 +6,11 @@ const Bill = (props) => {
 
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const currentMonth = new Date().getMonth() + 1;
-    const currentDay = daysOfWeek[new Date().getDay()];
+    
+    // Predit day of week in future
+    const futDate = new Date();
+    futDate.setDate(props.data.dueDate);
+    const currentDay = daysOfWeek[futDate.getDay()];
 
     return ( 
         <LinearGradient 

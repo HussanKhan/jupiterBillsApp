@@ -37,7 +37,7 @@ let initState = { bills: [
         id: 1,
         name: 'Comcast',
         amount: 45.77,
-        dueDate: 8,
+        dueDate: 3,
         occurance: "monthly",
         amountHistory: [{month: 11, amount: 78.99}],
         active: 1
@@ -46,7 +46,7 @@ let initState = { bills: [
         id: 2,
         name: 'Vonage',
         amount: 75.77,
-        dueDate: 12,
+        dueDate: 4,
         occurance: "monthly",
         amountHistory: [{month: 11, amount: 78.99}],
         active: 1
@@ -55,7 +55,7 @@ let initState = { bills: [
         id: 3,
         name: 'Car Insurance',
         amount: 115.77,
-        dueDate: 19,
+        dueDate: 6,
         occurance: "monthly",
         amountHistory: [{month: 11, amount: 78.99}],
         active: 1
@@ -64,7 +64,7 @@ let initState = { bills: [
         id: 4,
         name: 'Electricity',
         amount: 134.77,
-        dueDate: 22,
+        dueDate: 8,
         occurance: "monthly",
         amountHistory: [{month: 11, amount: 78.99}],
         active: 1
@@ -73,7 +73,7 @@ let initState = { bills: [
         id: 5,
         name: 'Sling TV',
         amount: 45.99,
-        dueDate: 25,
+        dueDate: 10,
         occurance: "monthly",
         amountHistory: [{month: 11, amount: 78.99}],
         active: 1
@@ -82,7 +82,7 @@ let initState = { bills: [
         id: 6,
         name: 'Chase Credit Card',
         amount: 75.00,
-        dueDate: 28,
+        dueDate: 15,
         occurance: "monthly",
         amountHistory: [{month: 11, amount: 78.99}],
         active: 1
