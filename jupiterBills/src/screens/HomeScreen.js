@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, StyleSheet, Text, Button, ImageBackground, ScrollView} from 'react-native';
+import {View, StyleSheet, Text, Button, ImageBackground, ScrollView, TouchableOpacity} from 'react-native';
 import Bill from '../components/Bill';
 import Wrapper from '../components/Wrapper';
 import ProgressBar from '../components/ProgressBar';
@@ -33,23 +33,9 @@ const HomeScreen = (props) => {
 
                 </ScrollView>
 
-                {/* <Button
-                    title="Go to Add bill"
-                    onPress={() => {
-                        props.navigation.navigate('add');
-                    }}
-                    style={{width: "100%"}}
-                />
-                <Button
-                    title="Go to Option Flow"
-                    onPress={() => {
-                        props.navigation.navigate('optionFlow');
-                    }}
-                /> */}
-
-                <View style={styles.addBillButton}>
+                <TouchableOpacity style={styles.addBillButton} onPress={ () => { props.navigation.navigate("add") } }>
                     <Text style={styles.addButtonText}>Add Bill</Text>
-                </View>
+                </TouchableOpacity>
                 
             </Wrapper>
 
