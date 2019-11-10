@@ -1,32 +1,68 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, ImageBackground} from 'react-native';
+import {View, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Text} from 'react-native';
 import Wrapper from '../components/Wrapper';
 import Spacer from '../components/Spacer';
 import DatePicker from 'react-native-datepicker';
+import OccurancePicker from "../components/OccurancePicker";
 
-const AddScreen = () => {
+const AddScreen = (props) => {
 
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
-
-
-    const todayDate = `${new Date().getMonth() + 1}-${new Date().getDate()}-${new Date().getFullYear()}`;
-    const [date, setDate] = useState(todayDate);
+    const [occurance, setOccurance] = useState("");
+    const [date, setDate] = useState('');
 
     const minDate = `${new Date().getMonth() + 1}-01-${new Date().getFullYear()}`;
     const maxDate = `${new Date().getMonth() + 1}-01-${ (new Date().getFullYear() + 1) }`;
 
-    console.log(minDate);
-    console.log(maxDate);
+    // Handle amount input
+    const amountInput = (text) => {
+        let numbers = text.match(/\d+/g);
+
+        if (numbers) {
+            let formattedAmount = "";
+
+            for (let i = 0; i < numbers.length; i++) {
+                formattedAmount += numbers[i];
+            };
+
+            formattedAmount = `${ formattedAmount.substring( 0, formattedAmount.length - 2) }.${ formattedAmount.substring( formattedAmount.length - 2, formattedAmount.length) }`
+
+            setAmount(formattedAmount);
+        } else {
+            setAmount('');
+        }
+
+    };
+    
+    
 
     return ( 
-        <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={1.3}>
+        <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={0.8}>
 
             <Wrapper>
-                
-                <View>
-                    <Text style={{fontSize: 48}}>AddScreen</Text>
+
+                <View style={styles.inputWrapper}>
+                    <TextInput 
+                        placeholder="Bill Name"
+                        onChangeText={(text) => {setName(text); }}    
+                        value={name}
+                        placeholderTextColor="#fff"
+                        style={styles.textInput_Name}
+                    />
+
+                    <TextInput 
+                        placeholder="Amount"
+                        onChangeText={(text) => {amountInput(text); }}    
+                        value={amount}
+                        keyboardType='numeric'
+                        maxLength={9}
+                        placeholderTextColor="#fff"
+                        style={styles.textInput_Amount}
+                    />
                 </View>
+
+                <Spacer/>
 
                 <View style={styles.dateWrapper}>
 
@@ -34,7 +70,7 @@ const AddScreen = () => {
                     <DatePicker
                       date={date}
                       mode="date"
-                      placeholder="select date"
+                      placeholder="Due Date"
                       format="MM-DD-YYYY"
                       showIcon={false}
                       minDate={minDate}
@@ -50,14 +86,43 @@ const AddScreen = () => {
                             fontSize: 24,
                             margin: 0,
                             color: "white"
+                        },
+                        placeholderText: {
+                            fontSize: 24,
+                            margin: 0,
+                            color: "white"
                         }
                         // ... You can check the source to find the other keys.
                       }}
                       style={{width: "100%"}}
-                      onDateChange={(date) => {setDate(date)}}
+                      onDateChange={(date) => {setDate(date); }}
                     />
 
                 </View>
+
+                <Spacer/>
+
+                <OccurancePicker
+                    onChangeOcc={(occ) => {setOccurance(occ); }}
+                />
+
+                <Spacer/>
+
+                { (name && amount && date && occurance) ? 
+                
+                    <TouchableOpacity style={ styles.addBillButton2 }>
+                        <Text style={styles.addButtonText}>Add Bill</Text>
+                    </TouchableOpacity>
+                
+                :
+
+                    <View style={ styles.addBillButton1 }>
+                        <Text style={styles.addButtonText}>Pending</Text>
+                    </View>
+                
+                }
+
+                
 
             </Wrapper>
 
@@ -88,6 +153,49 @@ const styles = StyleSheet.create({
         paddingBottom: "1%",
         alignItems: 'center',
         textAlignVertical: 'center'
+    },
+    textInput_Name: {
+        fontSize: 24,
+        color: "white",
+        borderColor: "white",
+        borderBottomWidth: 1,
+        padding: "3%",
+        paddingLeft: "0%",
+        width: "55%"
+    },
+    textInput_Amount: {
+        fontSize: 24,
+        color: "white",
+        borderColor: "white",
+        borderBottomWidth: 1,
+        padding: "3%",
+        paddingLeft: "0%",
+        width: "40%"
+    },
+    inputWrapper: {
+        flexDirection: "row",
+        justifyContent: 'space-between'
+    },
+    addBillButton1: {
+        backgroundColor: "white",
+        // height: "10%",
+        padding: "4%",
+        borderRadius: 10,
+        alignItems: 'center',
+        opacity: 0.3
+    },
+    addBillButton2: {
+        backgroundColor: "white",
+        // height: "10%",
+        padding: "4%",
+        borderRadius: 10,
+        alignItems: 'center',
+        opacity: 1
+    },
+    addButtonText: {
+        fontSize: 24,
+        color: "#F87B36",
+        margin: 0
     }
 });
 
