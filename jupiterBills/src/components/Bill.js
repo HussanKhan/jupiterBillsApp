@@ -6,10 +6,10 @@ const Bill = (props) => {
 
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const currentMonth = new Date().getMonth() + 1;
-    
+
     // Predit day of week in future
     const futDate = new Date();
-    futDate.setDate(props.data.dueDate);
+    futDate.setDate(props.data.dueDate.split("-")[1]);
     const currentDay = daysOfWeek[futDate.getDay()];
 
     return ( 
@@ -20,7 +20,7 @@ const Bill = (props) => {
         >
             
             <View style={styles.dateWrapper}>
-                <Text style={styles.date}>{currentMonth}/{props.data.dueDate}</Text>
+                <Text style={styles.date}>{currentMonth}/{props.data.dueDate.split("-")[1]}</Text>
                 <Text style={styles.day}>{currentDay}</Text>
             </View>
 

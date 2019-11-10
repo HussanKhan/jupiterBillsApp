@@ -10,8 +10,6 @@ const HomeScreen = (props) => {
 
     const valueData = useContext(StorageContext);
 
-    console.log(valueData);
-
     return ( 
         <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage}>
 

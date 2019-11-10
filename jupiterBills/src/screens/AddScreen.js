@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, StyleSheet, ImageBackground, TextInput, TouchableOpacity, Text} from 'react-native';
 import Wrapper from '../components/Wrapper';
 import Spacer from '../components/Spacer';
 import DatePicker from 'react-native-datepicker';
 import OccurancePicker from "../components/OccurancePicker";
+import { Context as StorageContext } from '../context/BillContext';
 
 const AddScreen = (props) => {
+
+    const valueData = useContext(StorageContext);
 
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
@@ -110,7 +113,12 @@ const AddScreen = (props) => {
 
                 { (name && amount && date && occurance) ? 
                 
-                    <TouchableOpacity style={ styles.addBillButton2 }>
+                    <TouchableOpacity style={ styles.addBillButton2 } onPress={
+                        () => {
+                            valueData.addBill({name, amount, dueDate: date, occurance});
+                            props.navigation.navigate("home");
+                        }
+                    }>
                         <Text style={styles.addButtonText}>Add Bill</Text>
                     </TouchableOpacity>
                 
