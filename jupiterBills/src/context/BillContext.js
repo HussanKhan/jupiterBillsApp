@@ -30,104 +30,63 @@ const getNextDueDate = (dueDate, occurance) => {
     date.setMonth( parseInt(dateArr[0]) - 1 );
     date.setDate( parseInt(dateArr[1]) );
     date.setYear( parseInt(dateArr[2]) );
+    console.log("==========");
+    console.log(occurance);
+    console.log(dueDate);
+    
 
-    date.setMonth(date.getMonth() + 1); // get next month
-    console.log(date.getMonth() + 1); // get next month number
+    // date.setMonth(date.getMonth() + 1); // get next month
+    // console.log(date.getMonth() + 1); // get next month number
 
     switch (occurance) {
 
         case "Monthly":
-            dateArr = dueDate.split("-");
-
-            monthIncr = 1;
-            nextMonth = parseInt(dateArr[0]) + monthIncr;
-
-            if (nextMonth > 12) {
-                nextMonth = 0 + monthIncr;
-            };
-            
-            date.setMonth(date.getMonth() + 1);
-            nextDueDate = `${nextMonth}-${dateArr[1]}-${dateArr[2]}`;
-
+            date.setMonth(date.getMonth() + 1); // get next month
+            // console.log(date.getMonth() + 1); // get next month number
+            nextDueDate = `${date.getMonth() + 1}-${dateArr[1]}-${dateArr[2]}`;
             console.log(nextDueDate);
+            break;
 
         case "One Time Only":
             nextDueDate = null;
             console.log(nextDueDate);
+            break;
 
         case "Weekly":
-            // Month starts at 0
-            // set month, day and year before adding
-            let date = new Date();
-            date.setMonth(10);
-            date.setDate(10);
-            date.setYear(2019);
             date.setDate(date.getDate() + 7);
-            // Create new Date instance
-            let dateWeekly = new Date();
-            dateWeekly.setDate(dueDate);
-
-            dateWeekly.setDate(dateWeekly.getDate() + 7);
-            
-            nextDueDate = dateWeekly.getDate();
-
+            nextDueDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
             console.log(nextDueDate);
+            break;
 
         case "Every Two Weeks":
-            let dateTwoWeeks = new Date()
-            dateTwoWeeks.setDate(dueDate);
-
-            dateTwoWeeks.setDate(dateTwoWeeks.getDate() + 14);
-            
-            nextDueDate = dateTwoWeeks.getDate();
+            date.setDate(date.getDate() + 14);
+            nextDueDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
             console.log(nextDueDate);
+            break;
 
         case "Every Two Months":
-            dateArr = dueDate.split("-");
-            monthIncr = 2;
-            nextMonth = parseInt(dateArr[0]) + monthIncr;
-
-            if (nextMonth > 12) {
-                nextMonth = 0 + monthIncr;
-            };
-
-            nextDueDate = `${nextMonth}-${dateArr[1]}-${dateArr[2]}`;
-    
+            date.setMonth(date.getMonth() + 2);
+            nextDueDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
             console.log(nextDueDate);
+            break;
 
         case "Quarterly":
-            dateArr = dueDate.split("-");
-            monthIncr = 3;
-            nextMonth = parseInt(dateArr[0]) + monthIncr;
-
-            if (nextMonth > 12) {
-                nextMonth = 0 + monthIncr;
-            };
-
-            nextDueDate = `${nextMonth}-${dateArr[1]}-${dateArr[2]}`;
-    
+            date.setMonth(date.getMonth() + 3);
+            nextDueDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
             console.log(nextDueDate);
+            break;
 
         case "Every Six Months":
-            dateArr = dueDate.split("-");
-            monthIncr = 6;
-            nextMonth = parseInt(dateArr[0]) + monthIncr;
-
-            if (nextMonth > 12) {
-                nextMonth = 0 + monthIncr;
-            };
-
-            nextDueDate = `${nextMonth}-${dateArr[1]}-${dateArr[2]}`;
-             
+            date.setMonth(date.getMonth() + 6);
+            nextDueDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
             console.log(nextDueDate);
+            break;
 
         case "Yearly":
-            dateArr = dueDate.split("-");
-            nextYear = parseInt(dateArr[2]) + 1;
-
-            nextDueDate = `${dateArr[0]}-${dateArr[1]}-${nextYear}`;
-                 
+            date.setYear(date.getFullYear() + 1);
+            nextDueDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
             console.log(nextDueDate);
+            break;
         
         default:
             break;
@@ -143,7 +102,16 @@ const addBill = (dispatch) => {
 
     return (data) => {
 
-        getNextDueDate(data.dueDate, "fugfud");
+        getNextDueDate(data.dueDate, "Monthly");
+        getNextDueDate(data.dueDate, "One Time Only");
+        getNextDueDate(data.dueDate, "Weekly");
+        getNextDueDate(data.dueDate, "Every Two Weeks");
+        getNextDueDate(data.dueDate, "Every Two Months");
+        getNextDueDate(data.dueDate, "Quarterly");
+        getNextDueDate(data.dueDate, "Every Six Months");
+        getNextDueDate(data.dueDate, "Yearly");
+        
+
 
         const id = Math.round(Math.random() * 100000000);
         
