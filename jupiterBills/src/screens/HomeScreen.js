@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {View, StyleSheet, Text, Button, ImageBackground, ScrollView, TouchableOpacity} from 'react-native';
 import Bill from '../components/Bill';
 import Wrapper from '../components/Wrapper';
@@ -9,6 +9,24 @@ import { Context as StorageContext } from '../context/BillContext';
 const HomeScreen = (props) => {
 
     const valueData = useContext(StorageContext);
+
+    // RUN CODE ONCE, BUILD STATE from api
+    useEffect(() => {
+        // fill state with posts from api
+        valueData.getBills();
+
+        // if index in focus/ main screen, run this code
+        // can use useffect otherwise get loop
+        const listener = props.navigation.addListener('didFocus', () => {
+            valueData.getBills();
+        });
+
+        // clean up
+        return () => {
+            listener.remove();
+        };
+
+    }, []);
 
     return ( 
         <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage}>

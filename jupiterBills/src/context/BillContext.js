@@ -9,7 +9,11 @@ const billReducer = (state, action) => {
         case "add_bill":
             const data = action.payload;
             // console.log({ ...state, bills:[ ...state.bills, data ] });
+            AsyncStorage.setItem('@bills', JSON.stringify({ ...state, bills:[ ...state.bills, data ] }));
             return { ...state, bills:[ ...state.bills, data ] };
+
+        case "get_bills":
+            return action.payload;
 
         case "delete_bill":
             return state;
@@ -21,7 +25,12 @@ const billReducer = (state, action) => {
 };
 
 
-const getNextDueDate = (dueDate, occurance) => {
+
+const getNextDueDate = async (dueDate, occurance) => {
+
+    const mem = await AsyncStorage.getItem('@bills');
+    console.log("SAVED");
+    console.log(JSON.parse(mem));
     
     let nextDueDate = "";
     let dateArr = dueDate.split("-");
@@ -98,97 +107,40 @@ const getNextDueDate = (dueDate, occurance) => {
 
 // functions to call reducer
 
+// Adds bill to state
 const addBill = (dispatch) => {
 
     return (data) => {
 
-        getNextDueDate(data.dueDate, "Monthly");
-        getNextDueDate(data.dueDate, "One Time Only");
-        getNextDueDate(data.dueDate, "Weekly");
-        getNextDueDate(data.dueDate, "Every Two Weeks");
-        getNextDueDate(data.dueDate, "Every Two Months");
-        getNextDueDate(data.dueDate, "Quarterly");
-        getNextDueDate(data.dueDate, "Every Six Months");
-        getNextDueDate(data.dueDate, "Yearly");
-        
-
-
         const id = Math.round(Math.random() * 100000000);
+        const nextDueDate = getNextDueDate(data.dueDate, data.occurance);
         
         dispatch({
             type: "add_bill",
-            payload: {...data, id: id, active: 1, amountHistory: []}
+            payload: {...data, id: id, active: 1, amountHistory: [], nextDueDate: nextDueDate}
         });
-
-        // 1 - try sign in
-        // 2 - change satte to reflect sign in
-        // 2 - if error, return in
 
     };
 
 };
 
+// LOADS BILLS FROM MEM
+const getBills = (dispatch) => {
+
+    return async () => {
+        const res = JSON.parse(await AsyncStorage.getItem('@bills'));
+        dispatch({type: "get_bills", payload: res});
+    };
+};
+
 let initState = { bills: [
-    {
-        id: 1,
-        name: 'Comcast',
-        amount: 45.77,
-        dueDate: "11-3-2019",
-        occurance: "monthly",
-        amountHistory: [{month: 11, amount: 78.99}],
-        active: 1
-    },
-    {
-        id: 2,
-        name: 'Vonage',
-        amount: 75.77,
-        dueDate: "11-4-2019",
-        occurance: "monthly",
-        amountHistory: [{month: 11, amount: 78.99}],
-        active: 1
-    },
-    {
-        id: 3,
-        name: 'Car Insurance',
-        amount: 115.77,
-        dueDate: "11-6-2019",
-        occurance: "monthly",
-        amountHistory: [{month: 11, amount: 78.99}],
-        active: 1
-    },
-    {
-        id: 4,
-        name: 'Electricity',
-        amount: 134.77,
-        dueDate: "11-8-2019",
-        occurance: "monthly",
-        amountHistory: [{month: 11, amount: 78.99}],
-        active: 1
-    },
-    {
-        id: 5,
-        name: 'Sling TV',
-        amount: 45.99,
-        dueDate: "11-10-2019",
-        occurance: "monthly",
-        amountHistory: [{month: 11, amount: 78.99}],
-        active: 1
-    },
-    {
-        id: 6,
-        name: 'Chase Credit Card',
-        amount: 75.00,
-        dueDate: "11-15-2019",
-        occurance: "monthly",
-        amountHistory: [{month: 11, amount: 78.99}],
-        active: 1
-    }
+
 ]} // starting state
 
 // Export Provider
 // (reducer, actions, defaultValue)
 export const { Provider, Context } = createdataContext(
     billReducer,
-    {addBill}, // functions to use reducer
+    {addBill, getBills}, // functions to use reducer
     initState
 );
