@@ -41,7 +41,7 @@ const AddScreen = (props) => {
     
 
     return ( 
-        <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={0.8}>
+        <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={2}>
 
             <Wrapper>
 

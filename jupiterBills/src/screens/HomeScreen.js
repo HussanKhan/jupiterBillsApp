@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {View, StyleSheet, Text, Button, ImageBackground, ScrollView, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, Button, ImageBackground, ScrollView, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import Bill from '../components/Bill';
 import Wrapper from '../components/Wrapper';
 import ProgressBar from '../components/ProgressBar';
@@ -17,19 +17,19 @@ const HomeScreen = (props) => {
 
         // if index in focus/ main screen, run this code
         // can use useffect otherwise get loop
-        const listener = props.navigation.addListener('didFocus', () => {
-            valueData.getBills();
-        });
+        // const listener = props.navigation.addListener('didFocus', () => {
+        //     valueData.getBills();
+        // });
 
-        // clean up
-        return () => {
-            listener.remove();
-        };
+        // // clean up
+        // return () => {
+        //     listener.remove();
+        // };
 
     }, []);
 
     return ( 
-        <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage}>
+        <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={0.3}>
 
             <Wrapper>
 
@@ -42,9 +42,11 @@ const HomeScreen = (props) => {
                     showsVerticalScrollIndicator={false}
                 >
                     {valueData.state.bills.map(bill => (
-                        
-                        <Bill data={bill} key={bill.id}/>
-                    
+                        <TouchableWithoutFeedback key={bill.id} onPress={ () => { console.log("GOT CLICK"); props.navigation.navigate("options", {id: bill.id}); }}>
+                            <View>
+                                <Bill data={bill}/>
+                            </View>
+                        </TouchableWithoutFeedback>
                     ))}
 
                 </ScrollView>

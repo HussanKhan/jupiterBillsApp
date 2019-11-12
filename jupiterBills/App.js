@@ -37,12 +37,8 @@ const stackNavigator = createStackNavigator(
             },
             
             add: AddScreen,
-
-            // Grouping of screens - Navigator within navigator
-            optionFlow: createStackNavigator({
-                options: OptionsScreen,
-                edit: EditScreen
-            }, headerNavSettings)
+            options: OptionsScreen,
+            edit: EditScreen,
 
         }),        
     },

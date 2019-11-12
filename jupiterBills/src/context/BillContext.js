@@ -8,15 +8,16 @@ const billReducer = (state, action) => {
 
         case "add_bill":
             const data = action.payload;
-            // console.log({ ...state, bills:[ ...state.bills, data ] });
             AsyncStorage.setItem('@bills', JSON.stringify({ ...state, bills:[ ...state.bills, data ] }));
             return { ...state, bills:[ ...state.bills, data ] };
 
         case "get_bills":
+            console.log("LOADED BILLS");
             return action.payload;
 
         case "delete_bill":
-            return state;
+            AsyncStorage.setItem('@bills', JSON.stringify( { ...state, bills: state.bills.filter( bill => bill.id !== action.payload ) } ));
+            return { ...state, bills: state.bills.filter( bill => bill.id.toString() !== action.payload.toString() ) };
 
         default:
             return state;
@@ -25,12 +26,8 @@ const billReducer = (state, action) => {
 };
 
 
-
-const getNextDueDate = async (dueDate, occurance) => {
-
-    const mem = await AsyncStorage.getItem('@bills');
-    console.log("SAVED");
-    console.log(JSON.parse(mem));
+// CALCULATES NEXT DUE DATE BASED ON OCCURANCE
+const getNextDueDate = (dueDate, occurance) => {
     
     let nextDueDate = "";
     let dateArr = dueDate.split("-");
@@ -39,13 +36,6 @@ const getNextDueDate = async (dueDate, occurance) => {
     date.setMonth( parseInt(dateArr[0]) - 1 );
     date.setDate( parseInt(dateArr[1]) );
     date.setYear( parseInt(dateArr[2]) );
-    console.log("==========");
-    console.log(occurance);
-    console.log(dueDate);
-    
-
-    // date.setMonth(date.getMonth() + 1); // get next month
-    // console.log(date.getMonth() + 1); // get next month number
 
     switch (occurance) {
 
@@ -114,7 +104,7 @@ const addBill = (dispatch) => {
 
         const id = Math.round(Math.random() * 100000000);
         const nextDueDate = getNextDueDate(data.dueDate, data.occurance);
-        
+        console.log(nextDueDate);
         dispatch({
             type: "add_bill",
             payload: {...data, id: id, active: 1, amountHistory: [], nextDueDate: nextDueDate}
@@ -133,6 +123,13 @@ const getBills = (dispatch) => {
     };
 };
 
+// DELETES BILLS FROM STATE
+const deleteBill = (dispatch) => {
+    return (id) => {
+        dispatch({type: "delete_bill", payload: id});
+    };
+};
+
 let initState = { bills: [
 
 ]} // starting state
@@ -141,6 +138,6 @@ let initState = { bills: [
 // (reducer, actions, defaultValue)
 export const { Provider, Context } = createdataContext(
     billReducer,
-    {addBill, getBills}, // functions to use reducer
+    {addBill, getBills, deleteBill}, // functions to use reducer
     initState
 );
