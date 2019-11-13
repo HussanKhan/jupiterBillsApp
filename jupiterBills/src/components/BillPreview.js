@@ -4,10 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const BillPreview = (props) => {
 
+    console.log("PREVIEW CALLED")
+
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const currentMonth = new Date().getMonth() + 1;
 
     // Predit day of week in future
+    console.log(props);
     const futDate = new Date();
     futDate.setDate(props.data.dueDate.split("-")[1]);
     const currentDay = daysOfWeek[futDate.getDay()];
@@ -16,7 +19,7 @@ const BillPreview = (props) => {
         <LinearGradient 
             colors={["#f5f6fa", "#dcdde1"]} 
             style={styles.billCompWrapper}
-            start={[0.8, 0.4]}    
+            start={[0.2, 0.9]}    
         >
             
             <View style={styles.dateWrapper}>

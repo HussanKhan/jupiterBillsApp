@@ -2,10 +2,10 @@
 import React, {useState} from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const OccurancePicker = (props) => {
+const OccurancePicker = ({onChangeOcc, occuranceDefault = "Occurance"}) => {
 
     const [ menu, setMenu ] = useState(1);
-    const [ occurance, setOccurance ] = useState("Occurance");
+    const [ occurance, setOccurance ] = useState(occuranceDefault);
     const [backgroundColor, setBackgroundColor] = useState("rgba(255, 255, 255, 0.10)");
 
     const allOcc = [
@@ -34,7 +34,7 @@ const OccurancePicker = (props) => {
             :
 
             allOcc.map(occ => (
-                <TouchableOpacity key={occ.id} onPress={() => { props.onChangeOcc(occ.name); setOccurance(occ.name); setMenu(1); setBackgroundColor("rgba(255, 255, 255, 0.10)"); }} style={styles.menuButton}>
+                <TouchableOpacity key={occ.id} onPress={() => { onChangeOcc(occ.name); setOccurance(occ.name); setMenu(1); setBackgroundColor("rgba(255, 255, 255, 0.10)"); }} style={styles.menuButton}>
                     <Text style={[styles.menuText, {color: "#F87B36"}]}>{ occ.name }</Text>
                 </TouchableOpacity> 
             ))

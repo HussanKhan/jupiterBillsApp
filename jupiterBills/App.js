@@ -37,8 +37,8 @@ const stackNavigator = createStackNavigator(
             },
             
             add: AddScreen,
-            options: OptionsScreen,
             edit: EditScreen,
+            options: OptionsScreen
 
         }),        
     },

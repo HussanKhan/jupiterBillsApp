@@ -7,18 +7,22 @@ import BillPreview from '../components/BillPreview';
 
 const OptionsScreen = (props) => {
 
+    console.log("OPTIONS");
+
     const valueData = useContext(StorageContext);
 
     // naviagtion contains data from last screen
     const id = props.navigation.getParam("id");
     const post = valueData.state.bills.find( item => item.id == id );
 
+    console.log(post);
+
     return ( 
         <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={2}>
 
             <Wrapper>
 
-                <BillPreview data={post}/>      
+                { post && <BillPreview data={post}/> }   
 
                 <Spacer/> 
                 <Spacer/>        
@@ -27,7 +31,13 @@ const OptionsScreen = (props) => {
                     <Text style={styles.payButtonText}>Pay Bill</Text>
                 </TouchableOpacity>
             
-                <TouchableOpacity style={styles.modBillButton} onPress={ () => { props.navigation.navigate("add") } }>
+                <TouchableOpacity 
+                    style={styles.modBillButton} 
+                    onPress={ () => { 
+                        props.navigation.navigate("edit", {id}); 
+                    } }
+                    
+                >
                     <Text style={styles.modButtonText}>Modify Bill</Text>
                 </TouchableOpacity>
 
@@ -35,7 +45,7 @@ const OptionsScreen = (props) => {
                     style={styles.delBillButton} 
                     onPress={ () => { 
                         valueData.deleteBill(id);
-                        props.navigation.navigate("home");
+                        props.navigation.navigate("home");                      
                     } }
                 
                 >

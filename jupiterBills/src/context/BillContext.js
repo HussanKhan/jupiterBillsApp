@@ -119,6 +119,7 @@ const getBills = (dispatch) => {
 
     return async () => {
         const res = JSON.parse(await AsyncStorage.getItem('@bills'));
+        console.log(res);
         dispatch({type: "get_bills", payload: res});
     };
 };
@@ -130,6 +131,28 @@ const deleteBill = (dispatch) => {
     };
 };
 
+
+// Modify Bill
+// Adds bill to state
+const modifyBill = (dispatch) => {
+
+    return (data) => {
+
+        // Delete bill
+        dispatch({type: "delete_bill", payload: data.id });
+
+        // Add new bill with new id
+        const nextDueDate = getNextDueDate(data.dueDate, data.occurance);
+
+        dispatch({
+            type: "add_bill",
+            payload: {...data, id: data.id, active: 1, amountHistory: [], nextDueDate: nextDueDate}
+        });
+
+    };
+
+};
+
 let initState = { bills: [
 
 ]} // starting state
@@ -138,6 +161,6 @@ let initState = { bills: [
 // (reducer, actions, defaultValue)
 export const { Provider, Context } = createdataContext(
     billReducer,
-    {addBill, getBills, deleteBill}, // functions to use reducer
+    {addBill, getBills, deleteBill, modifyBill}, // functions to use reducer
     initState
 );
