@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, StyleSheet, Text, Button, ImageBackground, ScrollView, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import Bill from '../components/Bill';
 import Wrapper from '../components/Wrapper';
@@ -15,18 +15,18 @@ const HomeScreen = (props) => {
         // fill state with posts from api
         valueData.getBills();
 
-        // if index in focus/ main screen, run this code
-        // can use useffect otherwise get loop
-        // const listener = props.navigation.addListener('didFocus', () => {
-        //     valueData.getBills();
-        // });
+        // if in focus, run again
+        const listener = props.navigation.addListener('didFocus', () => {
+            valueData.getBills();
+        });
 
-        // // clean up
-        // return () => {
-        //     listener.remove();
-        // };
+        // clean up
+        return () => {
+            listener.remove();
+        };
 
     }, []);
+
 
     return ( 
         <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={0.3}>
@@ -35,7 +35,10 @@ const HomeScreen = (props) => {
 
                 <Spacer/>
                 
-                <ProgressBar/>
+                <ProgressBar
+                   total={ valueData.state.bills.reduce((totalDue, {amount}) => totalDue + parseFloat(amount), 0.00) }
+                   bills={valueData.state.bills}
+                />
 
                 <ScrollView 
                     style={styles.billsHolder}

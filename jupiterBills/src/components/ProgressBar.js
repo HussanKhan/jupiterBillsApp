@@ -1,18 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 const ProgressBar = (props) => {
+
+    console.log(props);
+
     return ( 
         <View style={styles.wrapper}>
 
             <View style={styles.barContainer}>
-                <View style={styles.bar}></View>
+                <View style={ [styles.bar, {width: "60%"}] }></View>
                 <View style={styles.barBackground}></View>
             </View>
 
             
             <View style={styles.infoContainer}>
-                <Text style={styles.infoText}>$2,343.56</Text>
+                <Text style={styles.infoText}>${props.total}</Text>
                 <View style={styles.infoBackground}></View>
             </View>
             
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 500,
         position: 'absolute',
-        width: "70%",
+        // width: "70%",
         zIndex: 5,
         opacity: 0.7
     }

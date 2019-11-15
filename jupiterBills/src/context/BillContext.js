@@ -95,6 +95,31 @@ const getNextDueDate = (dueDate, occurance) => {
 
 };
 
+// Sorts bills in order by date
+const sortBills = (bills) => {
+    // SORT BILLS IN ORDER BY DATE
+    let tempState = [];
+    let tempArr = [];
+
+    for (let i = 0; bills.length > i; i++) {
+        tempArr.push(parseInt(bills[i].dueDate.split("-")[1]));
+    };
+    
+    tempArr.sort((a, b) => {return a - b;});
+
+    for (let i = 0; tempArr.length > i; i++) {
+        for (let j = 0; bills.length > j; j++) {
+            const date = parseInt(bills[j].dueDate.split("-")[1]);
+            if (date == tempArr[i] && !tempState.includes(bills[j])) {
+                tempState.push(bills[j]);
+            };
+        };
+    };
+
+    return tempState;
+
+};
+
 // functions to call reducer
 
 // Adds bill to state
@@ -118,8 +143,11 @@ const addBill = (dispatch) => {
 const getBills = (dispatch) => {
 
     return async () => {
-        const res = JSON.parse(await AsyncStorage.getItem('@bills'));
+        let res = JSON.parse(await AsyncStorage.getItem('@bills'));
         console.log(res);
+
+        res.bills = sortBills(res.bills);
+
         dispatch({type: "get_bills", payload: res});
     };
 };
