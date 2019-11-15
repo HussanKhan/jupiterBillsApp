@@ -9,6 +9,8 @@ import { Context as StorageContext } from '../context/BillContext';
 const HomeScreen = (props) => {
 
     const valueData = useContext(StorageContext);
+    const currentMonth = (new Date().getMonth() + 1).toString();
+    const currentYear = (new Date().getFullYear()).toString();
 
     // RUN CODE ONCE, BUILD STATE from api
     useEffect(() => {
@@ -44,13 +46,19 @@ const HomeScreen = (props) => {
                     style={styles.billsHolder}
                     showsVerticalScrollIndicator={false}
                 >
-                    {valueData.state.bills.map(bill => (
-                        <TouchableWithoutFeedback key={bill.id} onPress={ () => { console.log("GOT CLICK"); props.navigation.navigate("options", {id: bill.id}); }}>
-                            <View>
-                                <Bill data={bill}/>
-                            </View>
-                        </TouchableWithoutFeedback>
-                    ))}
+                    {valueData.state.bills.map(bill => {
+
+                        if (bill.dueDate.split("-")[0] == currentMonth && bill.dueDate.split("-")[2] == currentYear) {
+                            return (
+                                <TouchableWithoutFeedback key={bill.id} onPress={ () => { console.log("GOT CLICK"); props.navigation.navigate("options", {id: bill.id}); }}>
+                                    <View>
+                                        <Bill data={bill}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            );
+                        }
+                        
+                    })}
 
                 </ScrollView>
 

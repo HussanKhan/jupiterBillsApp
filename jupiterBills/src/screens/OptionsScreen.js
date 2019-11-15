@@ -27,7 +27,13 @@ const OptionsScreen = (props) => {
                 <Spacer/> 
                 <Spacer/>        
 
-                <TouchableOpacity style={styles.payBillButton} onPress={ () => { props.navigation.navigate("add") } }>
+                <TouchableOpacity 
+                    style={styles.payBillButton} 
+                    onPress={ () => { 
+                        valueData.payBill(post);
+                        props.navigation.navigate("home");
+                     } }
+                >
                     <Text style={styles.payButtonText}>Pay Bill</Text>
                 </TouchableOpacity>
             

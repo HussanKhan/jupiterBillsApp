@@ -8,15 +8,29 @@ const billReducer = (state, action) => {
 
         case "add_bill":
             const data = action.payload;
-            AsyncStorage.setItem('@bills', JSON.stringify({ ...state, bills:[ ...state.bills, data ] }));
             return { ...state, bills:[ ...state.bills, data ] };
 
         case "get_bills":
             console.log("LOADED BILLS");
             return action.payload;
 
+        case "save_bills":
+            AsyncStorage.setItem('@bills', JSON.stringify(state));
+            return state;
+
+        case "pay_bill":
+            return { ...state, bills: state.bills.map( (bill) => {
+                
+                if (bill.id == action.payload.id) {
+                    bill.dueDate = action.payload.newDueDate;
+                    bill.nextDueDate = action.payload.newNextDueDate;
+                };
+                
+                return bill;
+            
+            } ) };
+
         case "delete_bill":
-            AsyncStorage.setItem('@bills', JSON.stringify( { ...state, bills: state.bills.filter( bill => bill.id !== action.payload ) } ));
             return { ...state, bills: state.bills.filter( bill => bill.id.toString() !== action.payload.toString() ) };
 
         default:
@@ -135,6 +149,8 @@ const addBill = (dispatch) => {
             payload: {...data, id: id, active: 1, amountHistory: [], nextDueDate: nextDueDate}
         });
 
+        dispatch({type: "save_bills", payload: ""});
+
     };
 
 };
@@ -156,9 +172,22 @@ const getBills = (dispatch) => {
 const deleteBill = (dispatch) => {
     return (id) => {
         dispatch({type: "delete_bill", payload: id});
+        dispatch({type: "save_bills", payload: ""});
     };
 };
 
+// CHNAGES DUE DATE TO NEXT DUE DATE
+const payBill = (dispatch) => {
+    return (bill) => {
+        
+        // increment dates
+        let newDueDate = bill.nextDueDate;
+        let newNextDueDate = getNextDueDate(newDueDate, bill.occurance);
+
+        dispatch({type: "pay_bill", payload: {id: bill.id, newDueDate, newNextDueDate}});
+        dispatch({type: "save_bills", payload: ""});
+    };
+};
 
 // Modify Bill
 // Adds bill to state
@@ -176,6 +205,7 @@ const modifyBill = (dispatch) => {
             type: "add_bill",
             payload: {...data, id: data.id, active: 1, amountHistory: [], nextDueDate: nextDueDate}
         });
+        dispatch({type: "save_bills", payload: ""});
 
     };
 
@@ -189,6 +219,6 @@ let initState = { bills: [
 // (reducer, actions, defaultValue)
 export const { Provider, Context } = createdataContext(
     billReducer,
-    {addBill, getBills, deleteBill, modifyBill}, // functions to use reducer
+    {addBill, getBills, deleteBill, modifyBill, payBill}, // functions to use reducer
     initState
 );
