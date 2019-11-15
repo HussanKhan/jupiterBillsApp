@@ -65,6 +65,12 @@ const HomeScreen = (props) => {
                 <TouchableOpacity style={styles.addBillButton} onPress={ () => { props.navigation.navigate("add") } }>
                     <Text style={styles.addButtonText}>Add Bill</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.addBillButton} onPress={ () => { props.navigation.navigate("history") } }>
+                    <Text style={styles.addButtonText}>History</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.addBillButton} onPress={ () => { valueData.clearAsyncStorage() } }>
+                    <Text style={styles.addButtonText}>Clear Async</Text>
+                </TouchableOpacity>
                 
             </Wrapper>
 

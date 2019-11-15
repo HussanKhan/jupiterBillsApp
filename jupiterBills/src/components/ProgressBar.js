@@ -3,8 +3,6 @@ import {View, StyleSheet, Text} from 'react-native';
 
 const ProgressBar = (props) => {
 
-    console.log(props);
-
     return ( 
         <View style={styles.wrapper}>
 
@@ -15,7 +13,7 @@ const ProgressBar = (props) => {
 
             
             <View style={styles.infoContainer}>
-                <Text style={styles.infoText}>${props.total}</Text>
+                <Text style={styles.infoText}>${props.total.toFixed(2)}</Text>
                 <View style={styles.infoBackground}></View>
             </View>
             

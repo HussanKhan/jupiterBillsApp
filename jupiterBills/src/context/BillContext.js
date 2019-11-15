@@ -8,7 +8,7 @@ const billReducer = (state, action) => {
 
         case "add_bill":
             const data = action.payload;
-            return { ...state, bills:[ ...state.bills, data ] };
+            return { ...state, bills:[ ...state.bills, data ], history:[...state.history, {category: action.payload.cat, name: data.name}] };
 
         case "get_bills":
             console.log("LOADED BILLS");
@@ -28,10 +28,14 @@ const billReducer = (state, action) => {
                 
                 return bill;
             
-            } ) };
+            } ), history:[...state.history, {category: action.payload.cat, name: action.payload.name}] };
 
         case "delete_bill":
-            return { ...state, bills: state.bills.filter( bill => bill.id.toString() !== action.payload.toString() ) };
+            if (action.payload.name) {
+                return { ...state, bills: state.bills.filter( bill => bill.id.toString() !== action.payload.id.toString() ), history:[...state.history, {category: action.payload.cat, name: action.payload.name}] };
+            } else {
+                return { ...state, bills: state.bills.filter( bill => bill.id.toString() !== action.payload.id.toString() ) };
+            };
 
         default:
             return state;
@@ -146,7 +150,7 @@ const addBill = (dispatch) => {
         console.log(nextDueDate);
         dispatch({
             type: "add_bill",
-            payload: {...data, id: id, active: 1, amountHistory: [], nextDueDate: nextDueDate}
+            payload: {...data, id: id, active: 1, amountHistory: [], nextDueDate: nextDueDate, cat: "Added"}
         });
 
         dispatch({type: "save_bills", payload: ""});
@@ -160,6 +164,11 @@ const getBills = (dispatch) => {
 
     return async () => {
         let res = JSON.parse(await AsyncStorage.getItem('@bills'));
+
+        if (!res) {
+            res = initState;
+        };
+
         console.log(res);
 
         res.bills = sortBills(res.bills);
@@ -170,8 +179,9 @@ const getBills = (dispatch) => {
 
 // DELETES BILLS FROM STATE
 const deleteBill = (dispatch) => {
-    return (id) => {
-        dispatch({type: "delete_bill", payload: id});
+    return (data) => {
+        data.cat = "Deleted";
+        dispatch({type: "delete_bill", payload: data});
         dispatch({type: "save_bills", payload: ""});
     };
 };
@@ -184,7 +194,7 @@ const payBill = (dispatch) => {
         let newDueDate = bill.nextDueDate;
         let newNextDueDate = getNextDueDate(newDueDate, bill.occurance);
 
-        dispatch({type: "pay_bill", payload: {id: bill.id, newDueDate, newNextDueDate}});
+        dispatch({type: "pay_bill", payload: {id: bill.id, newDueDate, newNextDueDate, name: bill.name, cat: "Paid"}});
         dispatch({type: "save_bills", payload: ""});
     };
 };
@@ -196,14 +206,14 @@ const modifyBill = (dispatch) => {
     return (data) => {
 
         // Delete bill
-        dispatch({type: "delete_bill", payload: data.id });
+        dispatch({type: "delete_bill", payload: {id: data.id} });
 
         // Add new bill with new id
         const nextDueDate = getNextDueDate(data.dueDate, data.occurance);
 
         dispatch({
             type: "add_bill",
-            payload: {...data, id: data.id, active: 1, amountHistory: [], nextDueDate: nextDueDate}
+            payload: {...data, id: data.id, amountHistory: [], nextDueDate: nextDueDate, cat: "Modified"}
         });
         dispatch({type: "save_bills", payload: ""});
 
@@ -211,14 +221,20 @@ const modifyBill = (dispatch) => {
 
 };
 
+const clearAsyncStorage = (dispatch) => {
+    return async () => {
+        await AsyncStorage.clear();
+    };
+}
+
 let initState = { bills: [
 
-]} // starting state
+], history: []}; // starting state
 
 // Export Provider
 // (reducer, actions, defaultValue)
 export const { Provider, Context } = createdataContext(
     billReducer,
-    {addBill, getBills, deleteBill, modifyBill, payBill}, // functions to use reducer
+    {addBill, getBills, deleteBill, modifyBill, payBill, clearAsyncStorage}, // functions to use reducer
     initState
 );

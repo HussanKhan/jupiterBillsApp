@@ -6,6 +6,7 @@ import HomeScreen  from './src/screens/HomeScreen';
 import AddScreen  from './src/screens/AddScreen';
 import OptionsScreen  from './src/screens/OptionsScreen';
 import EditScreen  from './src/screens/EditScreen';
+import HistoryScreen from './src/screens/HistoryScreen';
 
 // React Navigation
 import { createAppContainer } from 'react-navigation';
@@ -13,6 +14,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 // CONTEXT - so all parts of app can see this
 import {Provider} from './src/context/BillContext';
+
 
 const headerNavSettings = {
     headerMode: 'none',
@@ -38,7 +40,8 @@ const stackNavigator = createStackNavigator(
             
             add: AddScreen,
             edit: EditScreen,
-            options: OptionsScreen
+            options: OptionsScreen,
+            history: HistoryScreen
 
         }),        
     },

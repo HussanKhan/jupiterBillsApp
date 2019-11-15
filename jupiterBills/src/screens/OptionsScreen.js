@@ -15,8 +15,6 @@ const OptionsScreen = (props) => {
     const id = props.navigation.getParam("id");
     const post = valueData.state.bills.find( item => item.id == id );
 
-    console.log(post);
-
     return ( 
         <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={2}>
 
@@ -50,7 +48,7 @@ const OptionsScreen = (props) => {
                 <TouchableOpacity 
                     style={styles.delBillButton} 
                     onPress={ () => { 
-                        valueData.deleteBill(id);
+                        valueData.deleteBill(post);
                         props.navigation.navigate("home");                      
                     } }
                 

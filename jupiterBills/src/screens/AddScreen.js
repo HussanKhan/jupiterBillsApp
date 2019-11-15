@@ -141,7 +141,8 @@ const AddScreen = (props) => {
 // Navigation styles
 AddScreen.navigationOptions = () => {
     return ({
-        headerTransparent: true
+        headerTransparent: true,
+        title: "Add Bill"
     });
 };
 

@@ -10,7 +10,6 @@ const BillPreview = (props) => {
     const currentMonth = new Date().getMonth() + 1;
 
     // Predit day of week in future
-    console.log(props);
     const futDate = new Date();
     futDate.setDate(props.data.dueDate.split("-")[1]);
     const currentDay = daysOfWeek[futDate.getDay()];
