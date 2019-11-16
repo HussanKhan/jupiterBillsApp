@@ -4,6 +4,7 @@ import Wrapper from '../components/Wrapper';
 import Spacer from '../components/Spacer';
 import { Context as StorageContext } from '../context/BillContext';
 import BillPreview from '../components/BillPreview';
+import { Ionicons } from '@expo/vector-icons';
 
 const OptionsScreen = (props) => {
 
@@ -65,9 +66,15 @@ const OptionsScreen = (props) => {
 };
 
 // Navigation styles
-OptionsScreen.navigationOptions = () => {
+OptionsScreen.navigationOptions = (props) => {
+    console.log(props);
     return ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerLeft: ( 
+        <TouchableOpacity onPress={ () => { props.navigation.goBack() } }>
+            <Ionicons name="ios-arrow-back" style={{marginLeft: 25}} size={32} color="white" />
+        </TouchableOpacity>
+        )
     });
 };
 

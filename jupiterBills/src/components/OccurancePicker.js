@@ -7,6 +7,7 @@ const OccurancePicker = ({onChangeOcc, occuranceDefault = "Occurance"}) => {
     const [ menu, setMenu ] = useState(1);
     const [ occurance, setOccurance ] = useState(occuranceDefault);
     const [backgroundColor, setBackgroundColor] = useState("rgba(255, 255, 255, 0.10)");
+    const [position, setPosition] = useState("relative");
 
     const allOcc = [
      {id: 0, name :"Monthly"}, 
@@ -22,19 +23,19 @@ const OccurancePicker = ({onChangeOcc, occuranceDefault = "Occurance"}) => {
     // The childeren of the component
     // props.childern
     return (
+        
 
-        <View style={[styles.wrapper, {backgroundColor: backgroundColor}]}>
+        <View style={[styles.wrapper, {backgroundColor: backgroundColor}, {position: position}]}>
             
             { menu ? 
             
-            <TouchableOpacity onPress={() => {setMenu(0); setBackgroundColor("white")}} style={styles.menuButton}>
+            <TouchableOpacity onPress={() => {setMenu(0); setBackgroundColor("white"); setPosition('absolute'); }} style={styles.menuButton}>
                 <Text style={styles.menuText}>{ occurance }</Text>
             </TouchableOpacity> 
                 
             :
-
             allOcc.map(occ => (
-                <TouchableOpacity key={occ.id} onPress={() => { onChangeOcc(occ.name); setOccurance(occ.name); setMenu(1); setBackgroundColor("rgba(255, 255, 255, 0.10)"); }} style={styles.menuButton}>
+                <TouchableOpacity key={occ.id} onPress={() => { onChangeOcc(occ.name); setOccurance(occ.name); setPosition('relative'); setMenu(1); setBackgroundColor("rgba(255, 255, 255, 0.10)"); }} style={styles.menuButton}>
                     <Text style={[styles.menuText, {color: "#F87B36"}]}>{ occ.name }</Text>
                 </TouchableOpacity> 
             ))
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
             borderWidth: 0.5,
             paddingTop: "1%",
             paddingBottom: "1%",
+            zIndex: 3,
             alignItems: 'center',
             textAlignVertical: 'center'
         },

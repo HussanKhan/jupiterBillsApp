@@ -5,6 +5,7 @@ import Spacer from '../components/Spacer';
 import DatePicker from 'react-native-datepicker';
 import OccurancePicker from "../components/OccurancePicker";
 import { Context as StorageContext } from '../context/BillContext';
+import { Ionicons } from '@expo/vector-icons';
 
 const AddScreen = (props) => {
 
@@ -139,10 +140,15 @@ const AddScreen = (props) => {
 };
 
 // Navigation styles
-AddScreen.navigationOptions = () => {
+AddScreen.navigationOptions = (props) => {
+    console.log(props);
     return ({
         headerTransparent: true,
-        title: "Add Bill"
+        headerLeft: ( 
+        <TouchableOpacity onPress={ () => { props.navigation.goBack() } }>
+            <Ionicons name="ios-arrow-back" style={{marginLeft: 25}} size={32} color="white" />
+        </TouchableOpacity>
+        )
     });
 };
 
