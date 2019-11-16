@@ -5,9 +5,10 @@ import Wrapper from '../components/Wrapper';
 import HistoryCard from '../components/HistoryCard';
 import Spacer from '../components/Spacer';
 import { Context as StorageContext } from '../context/BillContext';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const HistoryScreen = (props) => {
-
     const valueData = useContext(StorageContext);
 
     // RUN CODE ONCE, BUILD STATE from api
@@ -31,18 +32,19 @@ const HistoryScreen = (props) => {
         <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={0.3}>
 
             <Wrapper>
+                <View style={styles.wrapper}>
+                    <ScrollView 
+                        style={styles.billsHolder}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        {valueData.state.history.reverse().map((event, i) => (
 
-                <ScrollView 
-                    style={styles.billsHolder}
-                    showsVerticalScrollIndicator={false}
-                >
-                    {valueData.state.history.reverse().map((event, i) => (
+                            <HistoryCard key={i} data={event}/>
 
-                        <HistoryCard key={i} data={event}/>
-                        
-                    ))}
+                        ))}
 
-                </ScrollView>
+                    </ScrollView>
+                </View>
                 
             </Wrapper>
 
@@ -51,9 +53,15 @@ const HistoryScreen = (props) => {
 };
 
 // Navigation styles
-HistoryScreen.navigationOptions = () => {
+HistoryScreen.navigationOptions = (props) => {
+    console.log(props);
     return ({
-        headerTransparent: true
+        headerTransparent: true,
+        headerLeft: ( 
+        <TouchableOpacity onPress={ () => { props.navigation.goBack() } }>
+            <Ionicons name="ios-arrow-back" style={{marginLeft: 25}} size={32} color="white" />
+        </TouchableOpacity>
+        )
     });
 };
 
@@ -63,9 +71,9 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%"
     },
-    billsHolder: {
-        marginTop: "5%",
-        height: "70%"
+    wrapper: {
+        top: "5%",
+        height: "90%"
     }
 });
 
