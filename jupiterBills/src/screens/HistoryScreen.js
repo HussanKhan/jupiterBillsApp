@@ -59,9 +59,14 @@ HistoryScreen.navigationOptions = (props) => {
         headerTransparent: true,
         headerLeft: ( 
         <TouchableOpacity onPress={ () => { props.navigation.goBack() } }>
-            <Ionicons name="ios-arrow-back" style={{marginLeft: 25}} size={32} color="white" />
+            <Ionicons name="ios-arrow-back" style={{marginLeft: 25, paddingRight: 0}} size={32} color="white" />
         </TouchableOpacity>
-        )
+        ),
+        title: 'History',
+        headerTitleStyle: {
+            color: "white",
+            fontWeight: "100"
+        }
     });
 };
 

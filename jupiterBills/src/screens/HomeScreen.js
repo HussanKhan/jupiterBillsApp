@@ -5,6 +5,7 @@ import Wrapper from '../components/Wrapper';
 import ProgressBar from '../components/ProgressBar';
 import Spacer from '../components/Spacer';
 import { Context as StorageContext } from '../context/BillContext';
+import { FontAwesome } from '@expo/vector-icons';
 
 const HomeScreen = (props) => {
 
@@ -31,7 +32,7 @@ const HomeScreen = (props) => {
 
 
     return ( 
-        <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={0.3}>
+        <ImageBackground source={require("../images/HomeBackground.jpg")} style={styles.backgroundImage} blurRadius={0.5}>
 
             <Wrapper>
 
@@ -61,16 +62,22 @@ const HomeScreen = (props) => {
                     })}
 
                 </ScrollView>
+                
+                <View style={ [styles.buttonWrapper] }>
+                    <TouchableOpacity style={styles.addBillButton} onPress={ () => { props.navigation.navigate("add") } }>
+                        <Text style={styles.addButtonText}>Add Bill</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.addBillButton} onPress={ () => { props.navigation.navigate("add") } }>
-                    <Text style={styles.addButtonText}>Add Bill</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.addBillButton} onPress={ () => { props.navigation.navigate("history") } }>
+                    <TouchableOpacity onPress={ () => { props.navigation.navigate("history") } }>
+                        <FontAwesome name="history" style={ { padding: "1%", flex: 1, opacity: 0.8} } size={52} color="white" />
+                    </TouchableOpacity>
+                </View>
+                {/* <TouchableOpacity style={styles.addBillButton} onPress={ () => { props.navigation.navigate("history") } }>
                     <Text style={styles.addButtonText}>History</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.addBillButton} onPress={ () => { valueData.clearAsyncStorage() } }>
                     <Text style={styles.addButtonText}>Clear Async</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 
             </Wrapper>
 
@@ -96,12 +103,17 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         opacity: 0.9,
-        marginTop: "3%"
+        width: "80%"
     },
     addButtonText: {
         fontSize: 24,
         color: "#F87B36",
         margin: 0
+    },
+    buttonWrapper: {
+        flexDirection: 'row',
+        alignContent: 'center',
+        justifyContent: 'space-between'
     }
 });
 

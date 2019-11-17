@@ -74,7 +74,12 @@ OptionsScreen.navigationOptions = (props) => {
         <TouchableOpacity onPress={ () => { props.navigation.goBack() } }>
             <Ionicons name="ios-arrow-back" style={{marginLeft: 25}} size={32} color="white" />
         </TouchableOpacity>
-        )
+        ),
+        title: 'Options',
+        headerTitleStyle: {
+            color: "white",
+            fontWeight: "100"
+        }
     });
 };
 

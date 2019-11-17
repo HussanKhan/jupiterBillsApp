@@ -2,12 +2,17 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 const ProgressBar = (props) => {
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const currentMonth = (new Date().getMonth() + 1).toString();
+    const currentYear = (new Date().getFullYear()).toString();
+    const currentDate = (new Date().getDate().toString());
+    const currentDay = daysOfWeek[new Date().getDay()];
 
     return ( 
         <View style={styles.wrapper}>
 
             <View style={styles.barContainer}>
-                <View style={ [styles.bar, {width: "60%"}] }></View>
+                <View style={{justifyContent: 'center', flexDirection: 'row'}}><Text style={styles.dateText}>{currentDay} {currentMonth}-{currentDate}-{currentYear}</Text></View>
                 <View style={styles.barBackground}></View>
             </View>
 
@@ -36,15 +41,15 @@ const styles = StyleSheet.create({
     },
     infoBackground: {
         backgroundColor: "white",
-        height: 30,
-        borderRadius: 500,
+        height: 35,
+        borderRadius: 350,
         position: 'absolute',
         width: "100%",
         opacity: 0.9
     },
     infoText: {
         color: "#F87B36",
-        height: 30,
+        height: 35,
         fontSize: 16,
         width: "100%",
         textAlign: 'center',
@@ -54,20 +59,25 @@ const styles = StyleSheet.create({
     },
     barBackground: {
         backgroundColor: "white",
-        height: 30,
-        borderRadius: 500,
+        height: 35,
+        borderRadius: 350,
         position: 'absolute',
         width: "100%",
         opacity: 0.9
     },
-    bar: {
-        backgroundColor: "#F87B36",
-        height: 30,
-        borderRadius: 500,
-        position: 'absolute',
-        // width: "70%",
-        zIndex: 5,
-        opacity: 0.7
+    dateText: {
+        color: "#F87B36",
+        height: 35,
+        fontSize: 16,
+        width: "100%",
+        // borderColor: 'red',
+        // borderWidth: 1,
+        // flex: 1,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        zIndex: 1
     }
 });
 

@@ -148,7 +148,14 @@ AddScreen.navigationOptions = (props) => {
         <TouchableOpacity onPress={ () => { props.navigation.goBack() } }>
             <Ionicons name="ios-arrow-back" style={{marginLeft: 25}} size={32} color="white" />
         </TouchableOpacity>
-        )
+        ),
+        title: 'Add Bill',
+        headerTitleStyle: {
+            color: "white",
+            fontWeight: "100",
+            borderColor: 'red', 
+            borderWidth: 1
+        }
     });
 };
 
