@@ -67,7 +67,7 @@ const OptionsScreen = (props) => {
 
 // Navigation styles
 OptionsScreen.navigationOptions = (props) => {
-    console.log(props);
+   
     return ({
         headerTransparent: true,
         headerLeft: ( 

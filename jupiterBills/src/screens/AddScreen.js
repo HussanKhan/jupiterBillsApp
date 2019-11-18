@@ -141,7 +141,7 @@ const AddScreen = (props) => {
 
 // Navigation styles
 AddScreen.navigationOptions = (props) => {
-    console.log(props);
+  
     return ({
         headerTransparent: true,
         headerLeft: ( 

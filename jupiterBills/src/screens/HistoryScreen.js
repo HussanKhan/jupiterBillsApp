@@ -54,7 +54,7 @@ const HistoryScreen = (props) => {
 
 // Navigation styles
 HistoryScreen.navigationOptions = (props) => {
-    console.log(props);
+    
     return ({
         headerTransparent: true,
         headerLeft: ( 

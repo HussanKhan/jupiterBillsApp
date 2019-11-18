@@ -145,7 +145,7 @@ const EditScreen = (props) => {
 
 // Navigation styles
 EditScreen.navigationOptions = (props) => {
-    console.log(props);
+ 
     return ({
         headerTransparent: true,
         headerLeft: ( 
